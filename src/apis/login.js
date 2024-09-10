@@ -1,6 +1,6 @@
 import { login } from "../config/urlapis"; // Importa la URL desde config
 
-export const loginApi = async (email, password) => {
+export const loginApi = async (username, password) => {
   try {
     const response = await fetch(login, {
       // Usa la URL importada
@@ -8,7 +8,7 @@ export const loginApi = async (email, password) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ username, password }),
     });
     const data = await response.json();
     return data;

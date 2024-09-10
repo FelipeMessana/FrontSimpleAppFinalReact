@@ -18,10 +18,10 @@ const Signup = () => {
     }
 
     try {
-      const response = await signupApi(username, email, password);
-      console.log("Response:", response); // Verifica la respuesta completa
+      const data = await signupApi(username, email, password);
+      //console.log("Response:", response); // Verifica la respuesta completa
 
-      const data = await response.json();
+      // const data = await response.json();
       if (data.success) {
         Alert.alert("Perfecto", "Cuenta creada correctamente.");
         navigation.navigate("Login");

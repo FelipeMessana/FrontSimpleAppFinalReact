@@ -25,10 +25,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     if (!email || !password) {
-      Alert.alert(
-        "Error",
-        "Por favor, ingresa el correo electrónico y la contraseña."
-      );
+      Alert.alert("Error", "Por favor, ingresa el usuario y la contraseña.");
       return;
     }
 
@@ -41,7 +38,7 @@ const Login = () => {
       } else {
         Alert.alert(
           "Error",
-          "Correo electrónico o contraseña incorrecta. Verifica tus credenciales e intenta nuevamente."
+          "usuario o contraseña incorrecta. Verifica tus credenciales e intenta nuevamente."
         );
       }
     } catch (error) {
@@ -79,7 +76,7 @@ const Login = () => {
           </View>
           <View style={styles.inputContainer}>
             <Input
-              label="Correo Electrónico"
+              label="Usuario"
               icon="email"
               value={email}
               onChange={setEmail}

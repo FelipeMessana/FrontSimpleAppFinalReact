@@ -10,6 +10,15 @@ export const signupApi = async (username, email, password) => {
       },
       body: JSON.stringify({ username, email, password }),
     });
+
+    if (!response.ok) {
+      // Manejo de errores HTTP
+      const errorText = await response.text(); // Lee la respuesta como texto
+      throw new Error(
+        `HTTP error! Status: ${response.status}. Response: ${errorText}`
+      );
+    }
+
     const data = await response.json();
     return data;
   } catch (error) {
