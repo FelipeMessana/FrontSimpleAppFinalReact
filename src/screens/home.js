@@ -59,7 +59,7 @@ const Home = () => {
           onPress={() => navigation.navigate("Cart")} // Navega al carrito
         />
       </Appbar.Header>
-      {role === "admin" ? <h1>Esto es admin</h1> : ""}
+      {role === "admin" ? <h1>Esto es admin </h1> : ""}
       <View style={styles.container}>
         <FlatList
           data={displayedProducts}
