@@ -1,9 +1,10 @@
 import * as SecureStore from "expo-secure-store";
 
-// Guardar un valor
+// Guardar un valor (serializado a JSON)
 export const save = async (key, value) => {
   try {
-    await SecureStore.setItemAsync(key, value);
+    const stringValue = JSON.stringify(value); // Convierte el valor a una cadena JSON
+    await SecureStore.setItemAsync(key, stringValue);
     return true;
   } catch (error) {
     console.log(error);
@@ -11,14 +12,14 @@ export const save = async (key, value) => {
   }
 };
 
-// Obtener un valor
+// Obtener un valor (deserializar de JSON)
 export const getValueFor = async (key) => {
   try {
     let result = await SecureStore.getItemAsync(key);
-    return result;
+    return result ? JSON.parse(result) : null; // Si hay un resultado, lo convierte de JSON
   } catch (error) {
     console.log(error);
-    return false;
+    return null;
   }
 };
 
@@ -31,10 +32,11 @@ export const deleteValue = async (key) => {
     return false;
   }
 };
+
 export const getToken = async () => {
   try {
     let token = await SecureStore.getItemAsync("token");
-    return token;
+    return token ? JSON.parse(token) : null; // Asegúrate de que el token esté bien deserializado
   } catch (error) {
     console.log(error);
     return null;

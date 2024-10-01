@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import {
+  Text,
   View,
   FlatList,
   StyleSheet,
@@ -9,11 +10,13 @@ import {
 import products from "../data/productsData"; // Importa los datos locales
 import { Card, Title, Paragraph, Appbar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native"; // Importa useNavigation
+import { getValueFor } from "../utils/storage"; // Importa la función para obtener el valor
 
 const Home = () => {
   const [displayedProducts, setDisplayedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [role, setRole] = useState(""); // Estado para el rol del usuario
   const navigation = useNavigation(); // Usamos useNavigation para navegar
 
   // Simula la carga de datos locales
@@ -33,9 +36,20 @@ const Home = () => {
     }
   }, []);
 
+  // Obtén el rol desde el almacenamiento seguro
+  const fetchUserRole = useCallback(async () => {
+    try {
+      const savedRole = await getValueFor("role"); // Obtén el rol almacenado
+      setRole(savedRole); // Establece el rol en el estado
+    } catch (error) {
+      console.error("Error fetching role:", error);
+    }
+  }, []);
+
   useEffect(() => {
     fetchProducts();
-  }, [fetchProducts]);
+    fetchUserRole(); // Llama a la función para obtener el rol
+  }, [fetchProducts, fetchUserRole]);
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -59,7 +73,9 @@ const Home = () => {
           onPress={() => navigation.navigate("Cart")} // Navega al carrito
         />
       </Appbar.Header>
-      {role === "admin" ? <h1>Esto es admin </h1> : ""}
+      {role === "admin" && (
+        <Text style={styles.adminMessage}>Esto es admin</Text>
+      )}
       <View style={styles.container}>
         <FlatList
           data={displayedProducts}
@@ -101,6 +117,13 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 20,
     fontWeight: "bold",
+  },
+  adminMessage: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "red",
+    textAlign: "center",
+    marginVertical: 10,
   },
 });
 

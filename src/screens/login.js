@@ -33,6 +33,7 @@ const Login = () => {
       const data = await loginApi(email, password);
       if (data.success) {
         await save("token", data.token);
+        await save("role", data.role);
         Alert.alert("Perfecto", "Iniciaste sesión correctamente.");
         navigation.navigate("tabs");
       } else {
